@@ -191,7 +191,7 @@ jobs:
 
 
 workflows:
-  node-android-ios:
+  node:
     jobs:
       - node: 
           filters: 
