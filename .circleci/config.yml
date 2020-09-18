@@ -191,28 +191,12 @@ jobs:
 
 
 workflows:
-  workflow:
-    node-android-ios:
-      jobs:
-        - node: 
-            filters: 
-              tags: 
-                only: /^v.*/
-              branches:
-                ignore: /.*/
-        - android-build-and-test:
-            requires:
-              - node
-            filters: 
-              tags: 
-                only: /^v.*/
-              branches:
-                ignore: /.*/
-        - ios-build-and-test:
-            requires:
-              - node
-            filters: 
-              tags: 
-                only: /^v.*/
-              branches:
-                ignore: /.*/
+  node-android-ios:
+    jobs:
+      - node
+      - android-build-and-test:
+          requires:
+            - node
+      - ios-build-and-test:
+          requires:
+            - node
