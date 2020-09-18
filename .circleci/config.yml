@@ -197,6 +197,6 @@ workflows:
       - android-build-and-test:
           requires:
             - node
-      - ios-build-and-test:
-          requires:
-            - node
+      # - ios-build-and-test:
+      #     requires:
+      #       - node
