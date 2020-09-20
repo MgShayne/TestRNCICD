@@ -9,17 +9,17 @@ jobs:
       - checkout
 
       - restore_cache:
-          key: yarn-v1-{{ checksum "yarn.lock" }}-{{ arch }}
+          key: npm-v1-{{ checksum "package-lock.json" }}-{{ arch }}
 
       - restore_cache:
           key: node-v1-{{ checksum "package.json" }}-{{ arch }}
 
-      - run: yarn install
+      - run: npm install
 
       - save_cache:
-          key: yarn-v1-{{ checksum "yarn.lock" }}-{{ arch }}
+          key: npm-v1-{{ checksum "package-lock.json" }}-{{ arch }}
           paths:
-            - ~/.cache/yarn
+            - ~/.cache/npm
 
       - save_cache:
           key: node-v1-{{ checksum "package.json" }}-{{ arch }}
@@ -30,20 +30,20 @@ jobs:
           name: jest tests
           command: |
             mkdir -p test-results/jest
-            yarn run test
-          environment:
-            JEST_JUNIT_OUTPUT: test-results/jest/junit.xml
+            # yarn run test
+          # environment:
+          #   JEST_JUNIT_OUTPUT: test-results/jest/junit.xml
 
       - persist_to_workspace:
           root: ~/demo-react-native
           paths:
             - node_modules
 
-      - store_test_results:
-          path: test-results
+      # - store_test_results:
+      #     path: test-results
 
-      - store_artifacts:
-          path: test-results
+      # - store_artifacts:
+      #     path: test-results
 
   macos-build-and-test:
     working_directory: ~/demo-react-native
@@ -124,24 +124,25 @@ jobs:
       - restore_cache:
           key: bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}
 
-      - run: bundle install
+      # - run: bundle install
 
-      - save_cache:
-          key: bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}
-          paths:
-            - vendor/bundle
+      # - save_cache:
+      #     key: bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}
+      #     paths:
+      #       - vendor/bundle
 
-      - run:
-          name: fastlane tests
-          command: |
-            mkdir -p test-results/fastlane
-            bundle exec fastlane test
-            mv fastlane/report.xml test-results/fastlane
-      - store_test_results:
-          path: test-results
+      # - run:
+      #     name: fastlane tests
+      #     command: |
+      #       mkdir -p test-results/fastlane
+      #       bundle exec fastlane test
+      #       mv fastlane/report.xml test-results/fastlane
+      # - store_test_results:
+      #     path: test-results
 
       - store_artifacts:
           path: test-results
+  
 
 workflows:
   node-android-ios:
