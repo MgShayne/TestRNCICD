@@ -3,7 +3,7 @@ orbs:
   react-native: react-native-community/react-native@4.4.2
 jobs:
   node:
-    working_directory: ~/demo-react-native
+    working_directory: ~/TestRNCICD
     docker:
       - image: cimg/node:12.16
 
@@ -37,7 +37,7 @@ jobs:
       #       JEST_JUNIT_OUTPUT: test-results/jest/junit.xml
 
       - persist_to_workspace:
-          root: ~/demo-react-native
+          root: ~/TestRNCICD
           paths:
             - node_modules
 
@@ -113,16 +113,15 @@ jobs:
   #         path: output/scan
             
   android-build-and-test:
-    working_directory: ~/demo-react-native/android
+    working_directory: ~/TestRNCICD/android
     docker:
       - image: circleci/android:api-29-node
     steps:
       - checkout:
-          path: ~/demo-react-native
+          path: ~/TestRNCICD
 
       - attach_workspace:
-          at: ~/demo-react-native
-
+          at: ~/TestRNCICD
       - restore_cache:
           key: bundle-v1-{{ checksum "Gemfile.lock" }}-{{ arch }}
 
